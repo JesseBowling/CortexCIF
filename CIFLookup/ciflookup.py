@@ -59,7 +59,7 @@ class CIFLookup(Analyzer):
         """
         cli = Client(token=self.token,
                      remote=self.remote,
-                     verify_ssl=self.verify
+                     verify_ssl=False  #TODO figure out how to pass boolean
                      )
         filters = {
             "indicator": indicator,
