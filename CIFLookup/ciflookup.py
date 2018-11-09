@@ -63,7 +63,7 @@ class CIFLookup(Analyzer):
                      )
         filters = {
             "indicator": indicator,
-            "limit": self.limit,
+            "limit": self.limit
         }
 
         print(repr(filters))
