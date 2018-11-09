@@ -43,11 +43,23 @@ class CIFLookup(Analyzer):
         taxonomies = [ ]
         level = "info"
         namespace = "CIFLookup"
-        asname = raw[ 'CIF' ][ 'asn' ]
-        isp = raw[ 'IPBGP' ][ 'isp' ]
-        predicate = "AS"
-        value = "{0} - {1}".format(asname,isp)
-        taxonomies.append(self.build_taxonomy(level, namespace, predicate, value))
+        # First, a count total results
+        tcount = len(raw[ 'CIF' ])
+        predicate = "Total Count"
+        value = "{0}",format(tcount)
+        taxonomies.append(
+            self.build_taxonomy(level, namespace, predicate, value))
+
+        # Now for each provider:tags
+        if tcount > 0:
+            for result in raw[ 'CIF']:
+                tlist = ""
+                for t in result['tags']:
+                    tlist += t + ","
+                provider = result['provider']
+            predicate = "Provider:Tags"
+            value = "{0} : {1}".format(provider,tlist)
+            taxonomies.append(self.build_taxonomy(level, namespace, predicate, value))
 
         return {"taxonomies": taxonomies}
 
@@ -67,7 +79,7 @@ class CIFLookup(Analyzer):
         }
 
         ret = cli.indicators_search(filters=filters)
-        print(repr(ret))
+
         return ret
 
     def run(self):
