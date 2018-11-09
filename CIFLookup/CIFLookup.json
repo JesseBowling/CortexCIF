@@ -1,0 +1,47 @@
+{
+    "name": "CIFLookup",
+    "version": "1.0",
+    "author": "Jesse Bowling",
+    "url": "https://github.com/JesseBowling",
+    "license": "AGPL-V3",
+    "baseConfig": "CIFLookup",
+    "config": {
+      "check_tlp": false,
+      "max_tlp":3,
+      "service":""
+    },
+    "description": "Lookup a hash, IP, or domain against a CIF server",
+    "dataTypeList": ["ip", "domain", "fqdn", "hash"],
+    "command": "CIFLookup/ciflookup.py",
+    "configurationItems": [
+    {
+      "name": "limit",
+      "description": "Define the maximum number of results per request",
+      "type": "number",
+      "multi": false,
+      "required": true,
+      "defaultValue": 100
+    },
+    {
+      "name": "remote",
+      "description": "Define the remote CIF url (including https://, etc.)",
+      "type": "string",
+      "multi": true,
+      "required": true,
+    },
+    {
+      "name": "token",
+      "description": "CIF API token",
+      "type": "string",
+      "multi": true,
+      "required": true
+    },
+    {
+      "name": "verify",
+      "description": "Verify TLS certificate when connecting to CIF",
+      "type": "string",
+      "multi": true,
+      "required": true
+    }
+    ]
+}
