@@ -29,10 +29,10 @@ class CIFLookup(Analyzer):
                                     'Limit parameter missing'
                                     )
         # Set whether to verify TLS from the application.conf config section
-        #self.verify = self.getParam('config.verify',
-        #                            None,
-        #                           'Verify parameter missing'
-        #                           )
+        self.verify = self.getParam('config.verify',
+                                    None,
+                                   'Verify parameter missing'
+                                   )
         # We don't want to extract observables for Hive from this
         self.auto_extract = False
 
