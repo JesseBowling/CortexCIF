@@ -46,7 +46,7 @@ class CIFLookup(Analyzer):
         # First, a count total results
         tcount = len(raw[ 'CIF' ])
         predicate = "Total Count"
-        value = "{0}",format(tcount)
+        value = "{0}".format(tcount)
         taxonomies.append(
             self.build_taxonomy(level, namespace, predicate, value))
 
@@ -57,9 +57,9 @@ class CIFLookup(Analyzer):
                 for t in result['tags']:
                     tlist += t + ","
                 provider = result['provider']
-            predicate = "Provider:Tags"
-            value = "{0} : {1}".format(provider,tlist)
-            taxonomies.append(self.build_taxonomy(level, namespace, predicate, value))
+                predicate = "Provider:Tags"
+                value = "{0} : {1}".format(provider,tlist)
+                taxonomies.append(self.build_taxonomy(level, namespace, predicate, value))
 
         return {"taxonomies": taxonomies}
 
