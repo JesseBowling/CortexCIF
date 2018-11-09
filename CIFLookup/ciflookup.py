@@ -59,14 +59,13 @@ class CIFLookup(Analyzer):
         """
         cli = Client(token=self.token,
                      remote=self.remote,
-                     verify_ssl=False  #TODO figure out how to pass boolean
+                     verify_ssl=self.verify
                      )
         filters = {
             "indicator": indicator,
             "limit": self.limit
         }
 
-        print(repr(filters))
         ret = cli.indicators_search(filters=filters)
         print(repr(ret))
         return ret
