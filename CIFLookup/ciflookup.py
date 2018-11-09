@@ -75,7 +75,8 @@ class CIFLookup(Analyzer):
                      )
         filters = {
             "indicator": indicator,
-            "limit": self.limit
+            "limit": self.limit,
+            "nolog": "1"
         }
 
         ret = cli.indicators_search(filters=filters)
