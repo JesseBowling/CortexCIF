@@ -35,13 +35,6 @@
       "type": "string",
       "multi": true,
       "required": true
-    },
-    {
-      "name": "verify",
-      "description": "Verify TLS certificate when connecting to CIF",
-      "type": "string",
-      "multi": true,
-      "required": true
     }
     ]
 }
