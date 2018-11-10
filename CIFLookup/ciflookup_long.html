@@ -1,0 +1,32 @@
+<!-- Success case -->
+<div class="panel panel-info" ng-if="success">
+    <div class="panel-heading">
+        <strong>{{name}}</strong>
+    </div>
+    <div class="panel-body">
+      <div>{{content.results.length}} observations in CIF</div><br />
+          <div ng-repeat="c in content.CIF" class="panel panel-default">
+          <div class="panel-body">
+                        <dl class="dl-horizontal" ng-repeat="(key,value) in c">
+                            <dt>{{key}}:</dt>
+                            <dd>
+                                <div ng-switch="key">
+                                    <div ng-switch-default>
+                                        <span>{{value || None}}</span>
+                                    </div>
+                                </div>
+                            </dd>
+                        </dl>
+            </div>
+    </div>
+</div>
+
+<!-- Failure case -->
+<div class="panel panel-danger" ng-if="!success">
+    <div class="panel-heading">
+        <strong>{{artifact.data | fang}}</strong>
+    </div>
+    <div class="panel-body">
+        {{content.errorMessage}}
+    </div>
+</div>

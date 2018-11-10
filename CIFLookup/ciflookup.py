@@ -45,8 +45,8 @@ class CIFLookup(Analyzer):
         namespace = "CIFLookup"
         # First, a count total results
         tcount = len(raw[ 'CIF' ])
-        predicate = "Total Count"
-        value = "{0}".format(tcount)
+        predicate = "TotalCount"
+        value = tcount
         taxonomies.append(
             self.build_taxonomy(level, namespace, predicate, value))
 
