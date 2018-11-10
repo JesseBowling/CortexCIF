@@ -26,21 +26,21 @@
       "name": "remote",
       "description": "Define the remote CIF url (including https://, etc.)",
       "type": "string",
-      "multi": true,
-      "required": true,
+      "multi": false,
+      "required": true
     },
     {
       "name": "token",
       "description": "CIF API token",
       "type": "string",
-      "multi": true,
+      "multi": false,
       "required": true
     },
     {
       "name": "verify",
       "description": "Verify TLS certificate when connecting to CIF",
       "type": "boolean",
-      "multi": true,
+      "multi": false,
       "required": true,
       "defaultValue": false
     }
