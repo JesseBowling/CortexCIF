@@ -1,32 +1,82 @@
 <!-- Success case -->
 <div class="panel panel-info" ng-if="success">
-    <div class="panel-heading">
-        <strong>{{name}}</strong>
+  <div class="panel-heading">
+      <strong>{{name}}</strong>
+  </div>
+  <div class="panel-body">
+    <div>{{content.CIF.length}} observations in CIF</div><br />
+    <div ng-repeat="c in content.CIF" class="panel panel-default">
+      <div class="panel-body">
+        <table>
+          <tr>
+
+            <td style="padding-right: 30px;">
+
+              <table>
+                <tr>
+                  <th style="padding-right: 10px;"><p  align="right">Provider</p></th>
+                  <td style="padding-left: 10px;"><p align="left">{{c.provider || None}}</p></td>
+                </tr>
+                <tr>
+                  <th style="padding-right: 10px;"><p  align="right">Count</p></th>
+                  <td style="padding-left: 10px;"><p align="left">{{c.count || None}}</p></td>
+                </tr>
+                <tr>
+                  <th style="padding-right: 10px;"><p  align="right">ASN</p></th>
+                  <td style="padding-left: 10px;"><p align="left">{{c.asn || None}}</p></td>
+                </tr>
+              </table>
+
+            </td>
+            <td style="padding-right: 30px;">
+
+              <table>
+                <tr>
+                  <th style="padding-right: 10px;"><p  align="right">Tags</p></th>
+                  <td style="padding-left: 10px;"><p align="left">{{c.tags || None}}</p></td>
+                </tr>
+                <tr>
+                  <th style="padding-right: 10px;"><p  align="right">Confidence</p></th>
+                  <td style="padding-left: 10px;"><p align="left">{{c.confidence || None}}</p></td>
+                </tr>
+                <tr>
+                  <th style="padding-right: 10px;"><p  align="right">ASN Description</p></th>
+                  <td style="padding-left: 10px;"><p align="left">{{c.asn_desc || None}}</p></td>
+                </tr>
+              </table>
+
+            </td>
+            <td style="padding-right: 30px;">
+
+              <table>
+                <tr>
+                  <th style="padding-right: 10px;"><p  align="right">Sensor Location</p></th>
+                  <td style="padding-left: 10px;"><p align="left">{{c.city || None}}, {{c.cc || None}}</p></td>
+                </tr>
+                <tr>
+                  <th style="padding-right: 10px;"><p  align="right">First Seen</p></th>
+                  <td style="padding-left: 10px;"><p align="left">{{c.firsttime || None}}</p></td>
+                </tr>
+                <tr>
+                  <th style="padding-right: 10px;"><p  align="right">Last Seen</p></th>
+                  <td style="padding-left: 10px;"><p align="left">{{c.lasttime || None}}</p></td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+        </table>
+      </div>
     </div>
-    <div class="panel-body">
-      <div>{{content.results.length}} observations in CIF</div><br />
-          <div ng-repeat="c in content.CIF" class="panel panel-default">
-          <div class="panel-body">
-                        <dl class="dl-horizontal" ng-repeat="(key,value) in c">
-                            <dt>{{key}}:</dt>
-                            <dd>
-                                <div ng-switch="key">
-                                    <div ng-switch-default>
-                                        <span>{{value || None}}</span>
-                                    </div>
-                                </div>
-                            </dd>
-                        </dl>
-            </div>
-    </div>
+  </div>
 </div>
 
 <!-- Failure case -->
 <div class="panel panel-danger" ng-if="!success">
-    <div class="panel-heading">
-        <strong>{{artifact.data | fang}}</strong>
-    </div>
-    <div class="panel-body">
-        {{content.errorMessage}}
-    </div>
+  <div class="panel-heading">
+      <strong>{{artifact.data | fang}}</strong>
+  </div>
+  <div class="panel-body">
+      {{content.errorMessage}}
+  </div>
 </div>
