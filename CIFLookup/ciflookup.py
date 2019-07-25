@@ -25,14 +25,12 @@ class CIFLookup(Analyzer):
                                     )
         # Set the max results to return from the application.conf config section
         self.limit = self.getParam('config.limit',
-                                    None,
-                                    'Limit parameter missing'
-                                    )
+                                   None,
+                                   'Limit parameter missing')
         # Set whether to verify TLS from the application.conf config section
         self.verify = self.getParam('config.verify',
                                     None,
-                                   'Verify parameter missing'
-                                   )
+                                    'Verify parameter missing')
         # We don't want to extract observables for Hive from this
         self.auto_extract = False
 
@@ -40,11 +38,11 @@ class CIFLookup(Analyzer):
         """
         'raw' is the json that's returned in the report
         """
-        taxonomies = [ ]
+        taxonomies = []
         level = "info"
         namespace = "CIFLookup"
         # First, a count total results
-        tcount = len(raw[ 'CIF' ])
+        tcount = len(raw['CIF'])
         predicate = "TotalCount"
         value = tcount
         taxonomies.append(
@@ -52,13 +50,13 @@ class CIFLookup(Analyzer):
 
         # Now for each provider:tags
         if tcount > 0:
-            for result in raw[ 'CIF']:
+            for result in raw['CIF']:
                 tlist = ""
                 for t in result['tags']:
                     tlist += t + ","
                 provider = result['provider']
                 predicate = "Provider:Tags"
-                value = "{0} : {1}".format(provider,tlist)
+                value = "{0} : {1}".format(provider, tlist)
                 taxonomies.append(self.build_taxonomy(level, namespace, predicate, value))
 
         return {"taxonomies": taxonomies}
@@ -92,10 +90,10 @@ class CIFLookup(Analyzer):
         if self.data_type in ['ip', "domain", "fqdn", "hash"]:
             try:
 
-                ## Just get some json, using the user input as the seach query
+                # Just get some json, using the user input as the seach query
                 cif = self.search_cif(self.getData())
 
-                ## This gets put back to the summary report object
+                # This gets put back to the summary report object
                 self.report({
                     'CIF': cif
                 })
