@@ -29,8 +29,6 @@ class CIFLookup(Analyzer):
         self.verify = self.getParam('config.verify',
                                     None,
                                     'Verify parameter missing')
-        # We don't want to extract observables for Hive from this
-        self.auto_extract = False
 
     def summary(self, raw):
         # raw is the json that's returned in the report
