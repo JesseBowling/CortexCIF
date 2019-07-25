@@ -1,6 +1,6 @@
 {
     "name": "CIFLookup",
-    "version": "1.0",
+    "version": "2.0",
     "author": "Jesse Bowling",
     "url": "https://github.com/JesseBowling",
     "license": "AGPL-V3",
@@ -23,17 +23,17 @@
       "defaultValue": 100
     },
     {
-      "name": "remote",
+      "name": "remotes",
       "description": "Define the remote CIF url (including https://, etc.)",
       "type": "string",
-      "multi": false,
+      "multi": true,
       "required": true
     },
     {
-      "name": "token",
+      "name": "tokens",
       "description": "CIF API token",
       "type": "string",
-      "multi": false,
+      "multi": true,
       "required": true
     },
     {
