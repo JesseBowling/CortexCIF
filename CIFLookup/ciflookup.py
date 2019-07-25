@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # encoding: utf-8
 
-"""
+'''
 A Cortex Analyzer that retrieves results from a local CIF server
-"""
+'''
 
 from cifsdk.client.http import HTTP as Client
 from cortexutils.analyzer import Analyzer
@@ -35,15 +35,14 @@ class CIFLookup(Analyzer):
         self.auto_extract = False
 
     def summary(self, raw):
-        """
-        'raw' is the json that's returned in the report
-        """
+        # raw is the json that's returned in the report
+
         taxonomies = []
-        level = "info"
-        namespace = "CIFLookup"
+        level = 'info'
+        namespace = 'CIFLookup'
         # First, a count total results
         tcount = len(raw['CIF'])
-        predicate = "TotalCount"
+        predicate = 'TotalCount'
         value = tcount
         taxonomies.append(
             self.build_taxonomy(level, namespace, predicate, value))
@@ -51,30 +50,29 @@ class CIFLookup(Analyzer):
         # Now for each provider:tags
         if tcount > 0:
             for result in raw['CIF']:
-                tlist = ""
+                tlist = ''
                 for t in result['tags']:
-                    tlist += t + ","
+                    tlist += t + ','
                 provider = result['provider']
-                predicate = "Provider:Tags"
-                value = "{0} : {1}".format(provider, tlist)
+                predicate = 'Provider:Tags'
+                value = '{0} : {1}'.format(provider, tlist)
                 taxonomies.append(self.build_taxonomy(level, namespace, predicate, value))
 
-        return {"taxonomies": taxonomies}
+        return {'taxonomies': taxonomies}
 
     def search_cif(self, indicator):
-        """
-
+        '''
         :param indicator: one of domain, fqdn, or hash
         :return: dictionary of results
-        """
+        '''
         cli = Client(token=self.token,
                      remote=self.remote,
                      verify_ssl=self.verify
                      )
         filters = {
-            "indicator": indicator,
-            "limit": self.limit,
-            "nolog": "1"
+            'indicator': indicator,
+            'limit': self.limit,
+            'nolog': '1'
         }
 
         ret = cli.indicators_search(filters=filters)
@@ -82,12 +80,12 @@ class CIFLookup(Analyzer):
         return ret
 
     def run(self):
-        """
+        '''
         Run the analysis here
-        """
+        '''
         Analyzer.run(self)
 
-        if self.data_type in ['ip', "domain", "fqdn", "hash"]:
+        if self.data_type in ['ip', 'domain', 'fqdn', 'hash']:
             try:
 
                 # Just get some json, using the user input as the seach query
