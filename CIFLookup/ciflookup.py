@@ -14,13 +14,13 @@ class CIFLookup(Analyzer):
         # Bootstrap our ancestor
         Analyzer.__init__(self)
         # Pull the API token from the application.conf config section
-        self.token = self.getParam('config.token',
-                                   None,
-                                   'API key is missing')
-        # Pull the remote CIF URL from the application.conf config section
-        self.remote = self.getParam('config.remote',
+        self.tokens = self.getParam('config.tokens',
                                     None,
-                                    'Remote CIF host is missing')
+                                    'API key is missing')
+        # Pull the remote CIF URL from the application.conf config section
+        self.remotes = self.getParam('config.remotes',
+                                     None,
+                                     'Remote CIF host is missing')
         # Set the max results to return from the application.conf config section
         self.limit = self.getParam('config.limit',
                                    None,
@@ -29,6 +29,16 @@ class CIFLookup(Analyzer):
         self.verify = self.getParam('config.verify',
                                     None,
                                     'Verify parameter missing')
+        # Run through the CIF URLs and tokens and pair them into one list
+        self.cif_hosts = []
+        if len(self.tokens) == len(self.remotes):
+            while len(self.remotes):
+                remote = self.remotes.pop()
+                token = self.tokens.pop()
+                cif_host = {'remote': remote, 'token': token}
+                self.cif_hosts.append(cif_host)
+        else:
+            self.error('CIF host/API key pairing is incorrect')
 
     def summary(self, raw):
         # raw is the json that's returned in the report
@@ -44,15 +54,14 @@ class CIFLookup(Analyzer):
             self.build_taxonomy(level, namespace, predicate, value))
 
         # Now for each provider:tags
-        if tag_count > 0:
-            for result in raw['CIF']:
-                tag_list = ''
-                for tag in result['tags']:
-                    tag_list += tag + ','
-                provider = result['provider']
-                predicate = 'Provider:Tags'
-                value = '{0} : {1}'.format(provider, tag_list)
-                taxonomies.append(self.build_taxonomy(level, namespace, predicate, value))
+        for result in raw['CIF']:
+            tag_list = ''
+            for tag in result['tags']:
+                tag_list += tag + ','
+            provider = result['provider']
+            predicate = 'Provider:Tags'
+            value = '{0} : {1}'.format(provider, tag_list)
+            taxonomies.append(self.build_taxonomy(level, namespace, predicate, value))
 
         return {'taxonomies': taxonomies}
 
@@ -61,18 +70,20 @@ class CIFLookup(Analyzer):
         :param indicator: one of domain, fqdn, or hash
         :return: dictionary of results
         '''
-        cli = Client(token=self.token,
-                     remote=self.remote,
-                     verify_ssl=self.verify)
-        filters = {
-            'indicator': indicator,
-            'limit': self.limit,
-            'nolog': '1'
-        }
 
-        ret = cli.indicators_search(filters=filters)
+        results = []
+        for cif_host in self.cif_hosts:
+            cli = Client(token=cif_host['token'],
+                         remote=cif_host['remote'],
+                         verify_ssl=self.verify)
+            filters = {
+                'indicator': indicator,
+                'limit': self.limit,
+                'nolog': '1'
+            }
+            results += cli.indicators_search(filters=filters)
 
-        return ret
+        return results
 
     def run(self):
         '''
