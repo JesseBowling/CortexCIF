@@ -16,13 +16,11 @@ class CIFLookup(Analyzer):
         # Pull the API token from the application.conf config section
         self.token = self.getParam('config.token',
                                    None,
-                                   'API key is missing'
-                                   )
+                                   'API key is missing')
         # Pull the remote CIF URL from the application.conf config section
         self.remote = self.getParam('config.remote',
                                     None,
-                                    'Remote CIF host is missing'
-                                    )
+                                    'Remote CIF host is missing')
         # Set the max results to return from the application.conf config section
         self.limit = self.getParam('config.limit',
                                    None,
@@ -41,21 +39,21 @@ class CIFLookup(Analyzer):
         level = 'info'
         namespace = 'CIFLookup'
         # First, a count total results
-        tcount = len(raw['CIF'])
+        tag_count = len(raw['CIF'])
         predicate = 'TotalCount'
-        value = tcount
+        value = tag_count
         taxonomies.append(
             self.build_taxonomy(level, namespace, predicate, value))
 
         # Now for each provider:tags
-        if tcount > 0:
+        if tag_count > 0:
             for result in raw['CIF']:
-                tlist = ''
-                for t in result['tags']:
-                    tlist += t + ','
+                tag_list = ''
+                for tag in result['tags']:
+                    tag_list += tag + ','
                 provider = result['provider']
                 predicate = 'Provider:Tags'
-                value = '{0} : {1}'.format(provider, tlist)
+                value = '{0} : {1}'.format(provider, tag_list)
                 taxonomies.append(self.build_taxonomy(level, namespace, predicate, value))
 
         return {'taxonomies': taxonomies}
@@ -67,8 +65,7 @@ class CIFLookup(Analyzer):
         '''
         cli = Client(token=self.token,
                      remote=self.remote,
-                     verify_ssl=self.verify
-                     )
+                     verify_ssl=self.verify)
         filters = {
             'indicator': indicator,
             'limit': self.limit,
