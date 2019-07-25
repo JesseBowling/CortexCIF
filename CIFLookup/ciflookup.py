@@ -34,7 +34,7 @@ class CIFLookup(Analyzer):
         # raw is the json that's returned in the report
 
         taxonomies = []
-        level = 'info'
+        level = 'suspicious'
         namespace = 'CIFLookup'
         # First, a count total results
         tag_count = len(raw['CIF'])
