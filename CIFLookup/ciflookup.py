@@ -50,8 +50,10 @@ class CIFLookup(Analyzer):
         tag_count = len(raw['CIF'])
         predicate = 'TotalCount'
         value = tag_count
-        taxonomies.append(
-            self.build_taxonomy(level, namespace, predicate, value))
+        
+        if value:
+            taxonomies.append(
+                self.build_taxonomy(level, namespace, predicate, value))
 
         # Now for each provider:tags
         for result in raw['CIF']:
