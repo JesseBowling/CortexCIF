@@ -1,2 +1,2 @@
 requests
-cifsdk
+cifsdk>=3,<4
