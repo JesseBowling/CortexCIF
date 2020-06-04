@@ -61,7 +61,8 @@ class CIFLookup(Analyzer):
             provider = result['provider']
             predicate = 'Provider:Tags'
             value = '{0} : {1}'.format(provider, tag_list)
-            taxonomies.append(self.build_taxonomy(level, namespace, predicate, value))
+            if value:
+                taxonomies.append(self.build_taxonomy(level, namespace, predicate, value))
 
         return {'taxonomies': taxonomies}
 
